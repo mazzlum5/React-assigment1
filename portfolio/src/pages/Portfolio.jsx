@@ -1,10 +1,8 @@
-import { useState } from 'react';
-import ProjectCard from '../components/ProjectCard';
+import React, { useState } from "react";
+import ProjectCard from "../components/ProjectCard";
+import PopupModal from "../components/PopupModal";
 
-export default function Portfolio() {
-  const [showProjects, setShowProjects] = useState(false);
-
-  const projects = [
+const projects = [
       {
     name: "Memory Game",
     screenshot: "/images/memoryGame.png",
@@ -16,16 +14,29 @@ export default function Portfolio() {
     role: "Team Member",
     challenge: " implementing accurate state logic to prevent unintended double-clicks and manage timing between flips."
   },
-  ];
+];
+
+const Portfolio = () => {
+  const [selectedProject, setSelectedProject] = useState(null);
 
   return (
-     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-6">
-      <h1>My Projects</h1>
+    <div className="min-h-screen bg-gradient-to-r from-indigo-500 to-purple-600 p-6 text-white">
+      <h1 className="text-3xl font-bold text-center mb-6">My Projects</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        {projects.map((project, index) => (
+          <ProjectCard
+            key={index}
+            project={project}
+            onClick={setSelectedProject}
+          />
+        ))}
+      </div>
 
-          {projects.map((proj, index) => (
-            <ProjectCard key={index} {...proj} />
-          ))}
-
+      {selectedProject && (
+        <PopupModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+      )}
     </div>
   );
-}
+};
+
+export default Portfolio;
