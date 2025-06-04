@@ -1,18 +1,18 @@
-import React from 'react'
-import ProjectCard from './components/ProjectCard'
-import { projects } from './data/projects'
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import About from './pages/About';
+import Portfolio from './pages/Portfolio';
 
-const App = () => {
+export default function App() {
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">My Portfolio</h1>
-      <div className="grid gap-8 px-4 md:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project, index) => (
-          <ProjectCard key={index} {...project} />
-        ))}
-      </div>
-    </div>
-  )
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/portfolio" element={<Portfolio />} />
+      </Routes>
+    </>
+  );
 }
-
-export default App
