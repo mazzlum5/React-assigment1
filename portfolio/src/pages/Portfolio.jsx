@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 import PopupModal from "../components/PopupModal";
@@ -15,7 +17,7 @@ const projects = [
     challenges: " implementing accurate state logic to prevent unintended double-clicks and manage timing between flips."
   },
 
-    {
+  {
     name: "CSS Grid Layout",
     screenshot: "/images/grid.png",
     github: "https://github.com/mazzlum5/Lektion-10-Css-Grid.git",
@@ -25,7 +27,6 @@ const projects = [
     challenges: "Ensuring responsiveness across different screen sizes and maintaining a clean, organized code structure.",
     learning: "How to use Grid Layout to create responsive and structured web layouts.",
     role: "Developer",
-   
   },
 ];
 
@@ -35,37 +36,53 @@ const Portfolio = () => {
   const [showProjects, setShowProjects] = useState(false);
 
   const filteredProjects = projects.filter((project) =>
-  project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  (Array.isArray(project.tech) &&
-    project.tech.some((tech) =>
-      tech.toLowerCase().includes(searchTerm.toLowerCase())
-    ))
-);
+    project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (Array.isArray(project.tech) &&
+      project.tech.some((tech) =>
+        tech.toLowerCase().includes(searchTerm.toLowerCase())
+      ))
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 to-purple-600 p-6 text-white">
       <h1 className="text-3xl font-bold text-center mb-6">My Projects</h1>
 
-      <input
-        type="text"
-        placeholder="Search by project name or tech..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="border border-gray-300 p-2 rounded w-full mb-6"
-      />
-      
-      {filteredProjects.length === 0 && (
-        <p>No projects match your search.</p>
-      )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-        {filteredProjects.map((project, index) => (
-          <ProjectCard
-            key={index}
-            project={project}
-            onClick={setSelectedProject}
-          />
-        ))}
+      {/* Toggle Button */}
+      <div className="flex justify-center mb-4">
+        <button
+          onClick={() => setShowProjects(!showProjects)}
+          className="bg-white text-indigo-600 font-semibold py-2 px-4 rounded shadow hover:bg-indigo-100 transition"
+        >
+          {showProjects ? "Hide Projects" : "Show Projects"}
+        </button>
       </div>
+
+      {/* Search Input */}
+      {showProjects && (
+        <>
+          <input
+            type="text"
+            placeholder="Search by project name or tech..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border border-gray-300 p-2 rounded w-full mb-6 text-black"
+          />
+
+          {filteredProjects.length === 0 ? (
+            <p>No projects match your search.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {filteredProjects.map((project, index) => (
+                <ProjectCard
+                  key={index}
+                  project={project}
+                  onClick={setSelectedProject}
+                />
+              ))}
+            </div>
+          )}
+        </>
+      )}
 
       {selectedProject && (
         <PopupModal project={selectedProject} onClose={() => setSelectedProject(null)} />
